@@ -1,0 +1,15 @@
+bin/
+obj/
+.vs/
+.idea/
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
+*.user
+*.suo
+/data/
+wwwroot/uploads/
+appsettings.*.Local.json
+**/secrets.json
+TestResults/
+coverage/
