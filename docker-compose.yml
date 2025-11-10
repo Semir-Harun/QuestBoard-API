@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: "Data Source=/app/data/questboard.db"
+    volumes:
+      - ./data:/app/data
+    depends_on: []

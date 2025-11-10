@@ -1,10 +1,11 @@
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using QuestBoard.Api.Extensions;
 using QuestBoard.Api.Swagger;
 using QuestBoard.Application.Policies;
 using QuestBoard.Infrastructure.Auth;
+using QuestBoard.Infrastructure.Data;
 using QuestBoard.Infrastructure.Persistence;
 using Serilog;
 
@@ -36,17 +37,20 @@ builder.Services.AddApplicationLayer();
 
 var app = builder.Build();
 
+if (args.Contains("seed", StringComparer.OrdinalIgnoreCase))
+{
+    await SeedData.EnsureSeedDataAsync(app.Services);
+    return;
+}
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<QuestDbContext>();
     db.Database.Migrate();
 }
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseSerilogRequestLogging();
 app.UseStaticFiles();

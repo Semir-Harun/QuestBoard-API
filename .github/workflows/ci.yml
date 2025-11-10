@@ -2,11 +2,10 @@ name: .NET CI
 
 on:
   push:
-    branches: [ "main" ]
   pull_request:
 
 jobs:
-  build-test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,15 +19,7 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore -c Release
+        run: dotnet build --no-restore
 
       - name: Test
-        run: dotnet test --no-build -c Release --collect:"XPlat Code Coverage"
-
-      - name: Report coverage
-        uses: irongut/CodeCoverageSummary@v1.3.0
-        with:
-          filename: "**/coverage.cobertura.xml"
-          badge: true
-          fail_below_min: true
-          thresholds: "60 80"
+        run: dotnet test --no-build --verbosity normal

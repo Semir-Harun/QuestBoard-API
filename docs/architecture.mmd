@@ -1,0 +1,11 @@
+%% Mermaid diagram describing the QuestBoard layered architecture
+graph TD
+    Client[Client Apps / Frontend] --> API[QuestBoard.Api]
+    API --> Application[QuestBoard.Application]
+    Application --> Domain[QuestBoard.Domain]
+    Application --> Infrastructure[QuestBoard.Infrastructure]
+    Infrastructure --> Persistence[(EF Core / SQLite or SQL Server)]
+    Infrastructure --> Auth[JWT Token Service]
+    Infrastructure --> Files[Local File Storage]
+    Infrastructure --> Email[SmtpEmailSender]
+    Infrastructure --> BackgroundJobs[EmailBackgroundService]

@@ -1,0 +1,19 @@
+%% Sequence diagram describing a task assignment workflow in QuestBoard
+sequenceDiagram
+    autonumber
+    participant User as Client
+    participant API as QuestBoard.Api
+    participant App as Application Layer
+    participant Domain as Domain Layer
+    participant Infra as Infrastructure Layer
+    participant Email as Email Queue
+
+    User->>API: POST /api/tasks/{id}/assign
+    API->>App: Validate request & map DTO
+    App->>Domain: Ensure task invariant holds
+    Domain-->>App: Task assignment approved
+    App->>Infra: Persist assignment via EF Core
+    Infra-->>App: SaveChangesAsync()
+    App->>Email: Queue assignment notification
+    API-->>User: 200 OK + updated task payload
+    Email-->>User: Sends notification email asynchronously
