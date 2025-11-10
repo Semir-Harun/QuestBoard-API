@@ -1,27 +1,56 @@
-# QuestBoard API
+<h1 align="center">🧩 QuestBoard API</h1>
+<p align="center">
+	<b>Trello-style backend for team collaboration and task management</b><br>
+	<i>ASP.NET Core · EF Core · JWT · Serilog · AutoMapper · SQLite/SQL Server</i>
+</p>
 
-[![.NET CI](https://github.com/Semir-Harun/QuestBoard-API/actions/workflows/ci.yml/badge.svg)](https://github.com/Semir-Harun/QuestBoard-API/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+<p align="center">
+	<img src="https://img.shields.io/badge/.NET-6.0-blue?style=for-the-badge">
+	<img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge">
+	<img src="https://img.shields.io/badge/Architecture-Clean-success?style=for-the-badge">
+	<img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge">
+</p>
+
+<p align="center">
+	<a href="https://github.com/Semir-Harun/QuestBoard-API/actions/workflows/ci.yml">
+		<img src="https://github.com/Semir-Harun/QuestBoard-API/actions/workflows/ci.yml/badge.svg" alt=".NET CI"/>
+	</a>
+	<a href="LICENSE">
+		<img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"/>
+	</a>
+</p>
 
 > A Trello-style backend that powers collaborative project management with role-based access control, automated notifications, and rich task workflows.
 
-## Highlights
-- Role-aware JWT authentication with granular authorization policies (Admin, Manager, Member)
-- Background email queue with retry semantics to keep collaborators updated
-- File uploads with secure storage abstraction and static file serving
-- Filtering, pagination, and soft-delete metadata baked into every resource endpoint
-- AutoMapper-powered DTO mapping and structured logging via Serilog sinks
+## ⚙️ Highlights
+- 🔐 Role-aware JWT authentication with granular authorization policies (Admin, Manager, Member)
+- 📧 Background email queue with retry semantics to keep collaborators updated
+- 📂 File uploads with secure storage abstraction and static file serving
+- 🔍 Filtering, pagination, and soft-delete metadata baked into every resource endpoint
+- 🧭 AutoMapper-powered DTO mapping and structured logging via Serilog sinks
 
-## Tech Stack
+## 🧰 Tech Stack
+| Category | Technology |
+|-----------|-------------|
+| Framework | ASP.NET Core 6 |
+| ORM / DB | Entity Framework Core · SQLite · SQL Server |
+| Auth | JWT Bearer + Policy-based RBAC |
+| Logging | Serilog |
+| Mapping | AutoMapper |
+| Testing | xUnit |
+| Container | Docker / Docker Compose |
+| CI/CD | GitHub Actions |
+
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-512BD4?logo=dotnet&logoColor=white)
-![Entity Framework Core](https://img.shields.io/badge/EF_Core-6D3FDB?logo=dotnet&logoColor=white)
+![EF Core](https://img.shields.io/badge/Entity_Framework_Core-512BD4?logo=dotnet&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
 ![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?logo=microsoftsqlserver&logoColor=white)
-![AutoMapper](https://img.shields.io/badge/AutoMapper-FF6F00?logo=automapper&logoColor=white)
-![Serilog](https://img.shields.io/badge/Serilog-1E90FF?logo=serilog&logoColor=white)
-![xUnit](https://img.shields.io/badge/xUnit-5B2C6F?logo=xunit&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?logo=jsonwebtokens&logoColor=white)
+![Serilog](https://img.shields.io/badge/Serilog-1E90FF)
+![AutoMapper](https://img.shields.io/badge/AutoMapper-orange)
+![xUnit](https://img.shields.io/badge/xUnit-6DB33F)
 
-## Architecture
+## 🧩 Architecture
 ```mermaid
 graph TD
 	Client[Client Apps] --> API[QuestBoard.Api]
@@ -55,6 +84,28 @@ dotnet run --project QuestBoard.Api
 Open https://localhost:5001/swagger once the app is running.
 
 > **Heads-up:** the project targets .NET 6. Install the .NET 6 SDK/runtime locally or use the Docker workflow below if you only have newer runtimes installed.
+
+> ⚙️ **Prerequisite**  
+> Install [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0) or run inside Docker.
+
+### 🪄 Local Setup
+```bash
+git clone https://github.com/<you>/QuestBoard-API.git
+cd QuestBoard-API
+dotnet restore
+
+# Configure secrets (JWT key & SMTP credentials)
+dotnet user-secrets init --project QuestBoard.Api
+dotnet user-secrets set "Jwt:Key" "<dev-secret>" --project QuestBoard.Api
+
+# Apply database migrations
+dotnet ef database update --project QuestBoard.Infrastructure --startup-project QuestBoard.Api
+
+# Launch the API
+dotnet run --project QuestBoard.Api
+```
+
+🌐 Open https://localhost:5001/swagger
 
 ## Docker Quickstart
 ```bash
@@ -95,14 +146,14 @@ dotnet test
 
 CI runs the same command on every push and pull request via `.github/workflows/ci.yml`.
 
-## Roadmap
-- [ ] Feature: Harden JWT setup with refresh tokens and improved onboarding flow
-- [ ] Feature: Expand Project and Task services with richer filtering and reports
-- [ ] Feature: Add CRUD endpoints and DTOs for full backlog management
-- [ ] Chore: Centralize logging with Serilog sinks for console + Seq
-- [ ] Test: Introduce focused xUnit coverage for `TaskService`
-- [ ] Docs: Publish real Swagger screenshot and architecture graphic under `docs/`
-- [ ] Ops: Tag releases (e.g., `v1.0.0`) once the MVP milestone lands
+## 🗺️ Roadmap
+- [ ] 🔐 Refresh token + improved onboarding flow
+- [ ] 📊 Richer project/task filtering & reporting
+- [ ] 🧾 CRUD endpoints for backlog management
+- [ ] 🧠 Centralized Serilog sinks (console + Seq)
+- [ ] 🧪 xUnit coverage for TaskService
+- [ ] 🧱 Architecture diagram + real Swagger screenshot
+- [ ] 🚀 Tag v1.0.0 once MVP milestone achieved
 
 ## What I Learned
 - Designing a layered architecture that keeps the Domain model persistence-agnostic
@@ -122,6 +173,15 @@ Tags demonstrate maintainership and provide clear milestones for recruiters and 
 
 ## Contributing
 Pull requests are welcome! Please open an issue first to discuss significant changes so we can align on scope.
+
+---
+
+<h3 align="center">👨‍💻 Built with passion by <a href="https://github.com/Semir-Harun">Semir Ahmed Mahmed Harun</a></h3>
+
+<p align="center">
+	<a href="https://linkedin.com/in/semir-harun"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white"/></a>
+	<a href="mailto:semir.harun@gmail.com"><img src="https://img.shields.io/badge/Email-Contact-success?style=flat-square&logo=gmail&logoColor=white"/></a>
+</p>
 
 ## License
 Distributed under the MIT License. See `LICENSE` for details.
