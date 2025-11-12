@@ -1,72 +1,20 @@
-<h1 align="center">🧩 QuestBoard API</h1>
-<p align="center">
-	<b>Trello-style backend for team collaboration and task management</b><br>
-	<i>ASP.NET Core · EF Core · JWT · Serilog · AutoMapper · SQLite/SQL Server</i>
-</p>
+# QuestBoard API
 
-<p align="center">
-	<img src="https://img.shields.io/badge/.NET-6.0-blue?style=for-the-badge">
-	<img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge">
-	<img src="https://img.shields.io/badge/Architecture-Clean-success?style=for-the-badge">
-	<img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge">
-</p>
+A Trello-style backend for team collaboration and task management.
 
-<p align="center">
-	<a href="https://github.com/Semir-Harun/QuestBoard-API/actions/workflows/ci.yml">
-		<img src="https://github.com/Semir-Harun/QuestBoard-API/actions/workflows/ci.yml/badge.svg" alt=".NET CI"/>
-	</a>
-	<a href="LICENSE">
-		<img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"/>
-	</a>
-</p>
+**Stack:** ASP.NET Core · EF Core · JWT · Serilog · AutoMapper · SQLite/SQL Server
 
-> A Trello-style backend that powers collaborative project management with role-based access control, automated notifications, and rich task workflows.
-
-## ⚙️ Highlights
-- 🔐 Role-aware JWT authentication with granular authorization policies (Admin, Manager, Member)
-- 📧 Background email queue with retry semantics to keep collaborators updated
-- 📂 File uploads with secure storage abstraction and static file serving
-- 🔍 Filtering, pagination, and soft-delete metadata baked into every resource endpoint
-- 🧭 AutoMapper-powered DTO mapping and structured logging via Serilog sinks
-
-## 🧰 Tech Stack
-| Category | Technology |
-|-----------|-------------|
-| Framework | ASP.NET Core 6 |
-| ORM / DB | Entity Framework Core · SQLite · SQL Server |
-| Auth | JWT Bearer + Policy-based RBAC |
-| Logging | Serilog |
-| Mapping | AutoMapper |
-| Testing | xUnit |
-| Container | Docker / Docker Compose |
-| CI/CD | GitHub Actions |
-
-![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-512BD4?logo=dotnet&logoColor=white)
-![EF Core](https://img.shields.io/badge/Entity_Framework_Core-512BD4?logo=dotnet&logoColor=white)
-![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
-![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?logo=microsoftsqlserver&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-000000?logo=jsonwebtokens&logoColor=white)
-![Serilog](https://img.shields.io/badge/Serilog-1E90FF)
-![AutoMapper](https://img.shields.io/badge/AutoMapper-orange)
-![xUnit](https://img.shields.io/badge/xUnit-6DB33F)
-
-## 🧩 Architecture
-```mermaid
-graph TD
-	Client[Client Apps] --> API[QuestBoard.Api]
-	API --> Application[QuestBoard.Application]
-	Application --> Domain[QuestBoard.Domain]
-	Application --> Infrastructure[QuestBoard.Infrastructure]
-	Infrastructure --> DB[(SQLite / SQL Server)]
-	Infrastructure --> SMTP[(Email Service)]
-```
-
-## API Preview
-![Swagger UI Screenshot](docs/swagger-ui.png)
+## Features
+- JWT auth with RBAC policies (Admin, Manager, Member)
+- CRUD endpoints for projects, tasks, and comments
+- Task assignment workflow with background email queue
+- File upload support with static serving
+- Filtering, pagination, and soft deletes with audit metadata
+- AutoMapper DTO mapping and Serilog structured logging
 
 ## Getting Started
 ```bash
-git clone https://github.com/<you>/QuestBoard-API.git
+git clone https://github.com/Semir-Harun/QuestBoard-API.git
 cd QuestBoard-API
 dotnet restore
 
@@ -105,83 +53,17 @@ dotnet ef database update --project QuestBoard.Infrastructure --startup-project 
 dotnet run --project QuestBoard.Api
 ```
 
-🌐 Open https://localhost:5001/swagger
+Open https://localhost:5001/swagger to explore the API.
 
-## Docker Quickstart
-```bash
-# Build and start the API (http://localhost:8080/swagger)
-docker compose up --build
+## Solution Layout
+- `QuestBoard.Api` – Presentation layer hosting controllers, filters, and swagger setup
+- `QuestBoard.Application` – Application services, DTOs, policies, and abstractions
+- `QuestBoard.Domain` – Core entities, enums, and domain logic
+- `QuestBoard.Infrastructure` – EF Core persistence, repositories, auth, files, email background jobs
+- `QuestBoard.Tests` – xUnit test suites for API/Application/Infrastructure
 
-# Seed demo data inside the container
-docker compose run --rm api dotnet QuestBoard.Api.dll seed
-```
-
-The compose file mounts `./data` into the container so the SQLite database persists between runs.
-
-## Demo Data (optional)
-```bash
-dotnet run --project QuestBoard.Api -- seed
-```
-
-The seed operation provisions an `Admin` user, a sample project, and a set of tasks.
-
-- Admin login: `admin@questboard.local`
-- Password: `QuestBoard!123`
-
-## Project Layout
-- `QuestBoard.Api` – Presentation layer with controllers, filters, middleware, and Swagger setup
-- `QuestBoard.Application` – Application services, DTOs, policies, and abstraction contracts
-- `QuestBoard.Domain` – Core entities, enums, and domain invariants
-- `QuestBoard.Infrastructure` – EF Core persistence, auth, file storage, email background jobs
-- `QuestBoard.Tests` – xUnit test suites covering API/Application/Infrastructure layers
-- `docs/` – Mermaid diagrams and portfolio-friendly screenshots (generate `.png` files from the `.mmd` sources)
-- Tip: `npm install -g @mermaid-js/mermaid-cli` then run `mmdc` to export the diagrams into PNGs before pushing to GitHub
-- `Dockerfile` / `docker-compose.yml` – containerized developer experience targeting .NET 6
-- Using Mermaid diagrams as living documentation to communicate architecture and workflows
-
-## Testing
-```bash
-dotnet test
-```
-
-CI runs the same command on every push and pull request via `.github/workflows/ci.yml`.
-
-## 🗺️ Roadmap
-- [ ] 🔐 Refresh token + improved onboarding flow
-- [ ] 📊 Richer project/task filtering & reporting
-- [ ] 🧾 CRUD endpoints for backlog management
-- [ ] 🧠 Centralized Serilog sinks (console + Seq)
-- [ ] 🧪 xUnit coverage for TaskService
-- [ ] 🧱 Architecture diagram + real Swagger screenshot
-- [ ] 🚀 Tag v1.0.0 once MVP milestone achieved
-
-## What I Learned
-- Designing a layered architecture that keeps the Domain model persistence-agnostic
-- Wiring JWT authentication with policy-based authorization for clean RBAC
-- Orchestrating background jobs for email notifications without blocking API requests
-- Using AutoMapper profiles to keep controllers lean and focused on contracts
-- Leaning on Serilog enrichers to surface actionable telemetry for debugging
-- Containerizing the API with multi-stage Docker builds and compose for frictionless demos
-
-## Release Management
-```bash
-git tag -a v1.0.0 -m "QuestBoard API initial release"
-git push origin v1.0.0
-```
-
-Tags demonstrate maintainership and provide clear milestones for recruiters and collaborators.
-
-## Contributing
-Pull requests are welcome! Please open an issue first to discuss significant changes so we can align on scope.
-
----
-
-<h3 align="center">👨‍💻 Built with passion by <a href="https://github.com/Semir-Harun">Semir Ahmed Mahmed Harun</a></h3>
-
-<p align="center">
-	<a href="https://linkedin.com/in/semir-harun"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white"/></a>
-	<a href="mailto:semir.harun@gmail.com"><img src="https://img.shields.io/badge/Email-Contact-success?style=flat-square&logo=gmail&logoColor=white"/></a>
-</p>
+## CI
+A sample GitHub Actions workflow is located in `.github/workflows/ci.yml` (add after initializing the repo on GitHub).
 
 ## License
 Distributed under the MIT License. See `LICENSE` for details.
